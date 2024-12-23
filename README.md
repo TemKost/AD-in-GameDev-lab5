@@ -33,6 +33,13 @@
 decision period отвечает за период принятия решения, частота с которой агент запрашивает решение
 чем больше частота запросов, тем быстрее будет проходить модель обучения
 
+```c#
+[Range(1, 20)]
+[Tooltip("The frequency with which the agent requests a decision. A DecisionPeriod " +
+    "of 5 means that the Agent will request a decision every 5 Academy steps.")]
+public int DecisionPeriod = 5;
+```
+
 ## Задание 2
 ### Изменить параметры файла yaml-агента и определить какие параметры и как влияют на обучение модели. Привести описание не менее трех параметров.
 
