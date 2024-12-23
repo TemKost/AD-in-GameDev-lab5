@@ -30,14 +30,30 @@
 ## Задание 1
 ### Найдите внутри C# скрипта “коэффициент корреляции ” и сделать выводы о том, как он влияет на обучение модели.
 
-decision period отвечает за период принятия решения, частота с которой агент запрашивает решение
-чем больше частота запросов, тем быстрее будет проходить модель обучения
+forceMultiplier = 10 - коэфициент кореляции
 
 ```c#
-[Range(1, 20)]
-[Tooltip("The frequency with which the agent requests a decision. A DecisionPeriod " +
-    "of 5 means that the Agent will request a decision every 5 Academy steps.")]
-public int DecisionPeriod = 5;
+///forceMultiplier = 10 - коэфициент кореляции
+public float forceMultiplier = 10;
+public override void OnActionReceived(ActionBuffers actionBuffers)
+{
+    Vector3 controlSignal = Vector3.zero;
+    controlSignal.x = actionBuffers.ContinuousActions[0];
+    controlSignal.z = actionBuffers.ContinuousActions[1];
+    rBody.AddForce(controlSignal * forceMultiplier);
+
+    float distanceToTarget = Vector3.Distance(this.transform.localPosition, Target.localPosition);
+
+    if(distanceToTarget < 1.42f)
+    {
+        SetReward(1.0f);
+        EndEpisode();
+    }
+    else if (this.transform.localPosition.y < 0)
+    {
+        EndEpisode();
+    }
+}
 ```
 
 ## Задание 2
